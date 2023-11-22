@@ -1,0 +1,52 @@
+.srOnly {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important; /* 2 */
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important; /* 3 */
+}
+
+.mainNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+}
+
+.mainNav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.mainNav a.router-link-exact-active {
+  color: #42b983;
+}
+
+.mainNavItem {
+  text-decoration: none;
+  margin-right: 0.5rem;
+}
+
+.mainNavItem i {
+  margin-right: 4.5px;
+}
+
+.mainNavItem:hover {
+  text-decoration: underline;
+}
+
+.mainNavLogo {
+  display: flex;
+  align-items: center;
+}
+
+.mainNavLogoImage {
+  max-width: 100%;
+  width: 200px;
+}
