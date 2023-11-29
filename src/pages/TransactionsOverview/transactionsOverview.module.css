@@ -11,6 +11,27 @@
   margin-bottom: 2rem;
 }
 
+.wrapEditName {
+  margin-top: 12px;
+}
+
+.nameInput,
+.nameButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.nameInput input {
+  padding: 8px;
+  margin: 12px;
+}
+
+.nameButton button {
+  width: 100px;
+  margin: 12px;
+}
+
 .editButton {
   border-color: #00bc77;
   background-color: #00bc77;

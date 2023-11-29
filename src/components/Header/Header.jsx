@@ -9,7 +9,7 @@ export function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const userFirstName = useSelector((state) => state.user.firstName);
+  const userFirstName = useSelector((state) => state.user.userProfile.firstName);
 
   const handleLogout = () => {
     dispatch(setLogout());
