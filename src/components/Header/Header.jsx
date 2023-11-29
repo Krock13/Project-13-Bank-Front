@@ -1,11 +1,21 @@
-// import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { setLogout } from '../../redux/slices/authSlice.js';
 import styles from './header.module.css';
 import argentBankLogo from '../../assets/argentBankLogo.png';
 
 export function Header() {
-  const isAuthenticated = true; // = useSelector((state) => state.auth.isAuthenticated);
-  const userFirstName = 'Tony'; // = useSelector((state) => state.auth.user.firstName);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const userFirstName = useSelector((state) => state.user.firstName);
+
+  const handleLogout = () => {
+    dispatch(setLogout());
+    navigate('/');
+  };
+
   return (
     <nav className={styles.mainNav}>
       <Link to='/' className={styles.mainNavLogo}>
@@ -15,14 +25,14 @@ export function Header() {
       <div>
         {isAuthenticated ? (
           <>
-            <Link to='/transactions' className={styles.mainNavItem}>
+            <Link to='/user' className={styles.mainNavItem}>
               <i className='fa fa-user-circle'></i>
               <span>{userFirstName}</span>
             </Link>
-            <Link to='/' className={styles.mainNavItem}>
+            <div className={styles.mainNavItem} onClick={handleLogout}>
               <i className='fa fa-sign-out'></i>
               Sign Out
-            </Link>
+            </div>
           </>
         ) : (
           <Link to='/signin' className={styles.mainNavItem}>

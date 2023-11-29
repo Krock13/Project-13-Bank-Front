@@ -9,7 +9,6 @@ import './utils/style/globalStyle.css';
 import { Home } from './pages/Home/Home';
 import { SignIn } from './pages/SignIn/SignIn';
 import { TransactionsOverview } from './pages/TransactionsOverview/TransactionsOverview';
-import { TransactionDetails } from './pages/TransactionDetails/TransactionDetails';
 import { NotFound } from './pages/NotFound/NotFound';
 
 import { Header } from './components/Header/Header';
@@ -27,18 +26,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route path='/' element={<Home />} />
               <Route path='/signin' element={<SignIn />} />
               <Route
-                path='/transactions'
+                path='/user'
                 element={
                   <ProtectedRoute>
                     <TransactionsOverview />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path='/transactions/:id'
-                element={
-                  <ProtectedRoute>
-                    <TransactionDetails />
                   </ProtectedRoute>
                 }
               />
