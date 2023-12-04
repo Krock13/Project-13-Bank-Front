@@ -7,7 +7,7 @@ export function ProtectedRoute({ children }) {
 
   if (!isAuthenticated) {
     // Si l'utilisateur n'est pas connecté, redirige vers la page de connexion
-    return <Navigate to='/signin' />;
+    return <Navigate to='/login' />;
   }
 
   return children; // Si connecté, affiche l'enfant (la route protégée)

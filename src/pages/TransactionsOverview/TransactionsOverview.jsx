@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile } from '../../redux/slices/userSlice';
 import styles from './transactionsOverview.module.css';
@@ -9,8 +9,15 @@ export function TransactionsOverview() {
 
   // États locaux pour le formulaire d'édition
   const [editMode, setEditMode] = useState(false);
-  const [firstName, setFirstName] = useState(userProfile?.firstName || '');
-  const [lastName, setLastName] = useState(userProfile?.lastName || '');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  useEffect(() => {
+    if (userProfile) {
+      setFirstName(userProfile.firstName);
+      setLastName(userProfile.lastName);
+    }
+  }, [userProfile]);
 
   // Basculer l'affichage du formulaire d'édition
   const toggleEditMode = () => {
@@ -31,16 +38,8 @@ export function TransactionsOverview() {
             Welcome back
             <div className={styles.wrapEditName}>
               <div className={styles.nameInput}>
-                <input
-                  placeholder={userProfile?.firstName || 'Prénom'}
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-                <input
-                  placeholder={userProfile?.lastName || 'Nom'}
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
+                <input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                <input value={lastName} onChange={(e) => setLastName(e.target.value)} />
               </div>
               <div className={styles.nameButton}>
                 <button onClick={handleSave} className={styles.editButton}>

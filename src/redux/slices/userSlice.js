@@ -43,6 +43,11 @@ const userSlice = createSlice({
     loading: false,
     error: null,
   },
+  reducers: {
+    emptyUser: (state) => {
+      state.userProfile = false;
+    },
+  },
   extraReducers: {
     [fetchUserProfile.pending]: (state) => {
       state.loading = true;
@@ -58,4 +63,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { emptyUser } = userSlice.actions;
 export default userSlice.reducer;

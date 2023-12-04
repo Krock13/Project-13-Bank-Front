@@ -24,9 +24,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <div className='routesContainer'>
             <Routes>
               <Route path='/' element={<Home />} />
-              <Route path='/signin' element={<SignIn />} />
+              <Route path='/login' element={<SignIn />} />
               <Route
-                path='/user'
+                path='/profile'
                 element={
                   <ProtectedRoute>
                     <TransactionsOverview />

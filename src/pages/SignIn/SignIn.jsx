@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../redux/slices/authSlice.js';
+import { login, resetError } from '../../redux/slices/authSlice.js';
 import styles from './signIn.module.css';
 
 const LoginForm = () => {
@@ -13,9 +13,15 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (authState.isAuthenticated) {
-      navigate('/user');
+      navigate('/profile');
     }
   }, [authState.isAuthenticated, navigate]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetError());
+    };
+  }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,6 +47,9 @@ const LoginForm = () => {
         <input type='checkbox' id='remember-me' />
         <label htmlFor='remember-me'>Remember me</label>
       </div>
+      {authState.error && (
+        <div className={styles.error}>{authState.error.message || 'Une erreur est survenue.'}</div>
+      )}
       <button type='submit' className={styles.signInButton}>
         Sign In
       </button>
