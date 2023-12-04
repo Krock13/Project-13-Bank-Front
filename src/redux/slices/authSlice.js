@@ -1,7 +1,18 @@
+/**
+ * Redux slice for authentication.
+ * Manages state related to user authentication including login, logout, and error handling.
+ */
+
+// Redux Toolkit for creating slice and async thunks
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// Axios for API requests
 import axios from 'axios';
+
+// Importing async thunk from user slice
 import { fetchUserProfile } from './userSlice';
 
+// Async thunk for handling user login
 export const login = createAsyncThunk(
   'auth/login',
   async (userData, { dispatch, rejectWithValue }) => {
@@ -12,13 +23,13 @@ export const login = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (!error.response) {
-        // Gérer les erreurs autres que les réponses du serveur, comme les erreurs réseau
+        // Handle errors other than server responses, such as network errors
         return rejectWithValue({
           message: 'Le serveur ne répond pas, veuillez réessayer plus tard.',
         });
       }
       if (error.response && error.response.status === 400) {
-        // Personnaliser le message d'erreur pour les erreurs 400
+        // Customize error message for errors 400
         return rejectWithValue({
           message: 'Identifiant ou mot de passe invalide. Veuillez réessayer.',
         });
@@ -28,6 +39,7 @@ export const login = createAsyncThunk(
   }
 );
 
+// Reducers for managing auth state
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -45,6 +57,7 @@ export const authSlice = createSlice({
       state.error = null;
     },
   },
+  // Handling different states of the login async thunk
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {

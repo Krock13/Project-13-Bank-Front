@@ -1,5 +1,11 @@
+/**
+ * Home page component displaying the main features and promotional content of Argent Bank.
+ */
+
+// Styles specific to the Home component
 import styles from './home.module.css';
 
+// Asset imports for the feature icons
 import iconChat from '../../assets/icon-chat.png';
 import iconMoney from '../../assets/icon-money.png';
 import iconSecurity from '../../assets/icon-security.png';

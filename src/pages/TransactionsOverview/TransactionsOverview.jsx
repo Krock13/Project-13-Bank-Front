@@ -1,13 +1,22 @@
+/**
+ * TransactionsOverview component for displaying and managing user's account information.
+ * Allows users to view their account details and edit their profile.
+ */
+
+// React hooks and Redux utilities
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+// Redux action for updating user profile
 import { updateProfile } from '../../redux/slices/userSlice';
+
+// Component-specific styles
 import styles from './transactionsOverview.module.css';
 
 export function TransactionsOverview() {
   const dispatch = useDispatch();
   const userProfile = useSelector((state) => state.user.userProfile);
 
-  // États locaux pour le formulaire d'édition
   const [editMode, setEditMode] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -19,12 +28,12 @@ export function TransactionsOverview() {
     }
   }, [userProfile]);
 
-  // Basculer l'affichage du formulaire d'édition
+  // Function to toggle the edit mode on and off
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
 
-  // Mettre à jour le profil de l'utilisateur
+  // Function to handle saving the updated profile
   const handleSave = () => {
     dispatch(updateProfile({ firstName, lastName }));
     toggleEditMode();

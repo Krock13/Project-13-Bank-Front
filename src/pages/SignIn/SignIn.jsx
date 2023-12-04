@@ -1,6 +1,14 @@
+/**
+ * SignIn component for user authentication.
+ * Includes a LoginForm sub-component for handling user login.
+ */
+
+// React hooks and utilities
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+// Redux actions and styles
 import { login, resetError } from '../../redux/slices/authSlice.js';
 import styles from './signIn.module.css';
 
@@ -11,18 +19,21 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Redirect to profile page upon successful authentication
   useEffect(() => {
     if (authState.isAuthenticated) {
       navigate('/profile');
     }
   }, [authState.isAuthenticated, navigate]);
 
+  // Reset authentication error on component mount
   useEffect(() => {
     return () => {
       dispatch(resetError());
     };
   }, [dispatch]);
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));

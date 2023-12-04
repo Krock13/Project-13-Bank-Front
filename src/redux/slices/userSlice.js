@@ -1,6 +1,12 @@
+/**
+ * Redux slice for user data.
+ * Manages state related to user profile information, including fetching and updating user data.
+ */
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Async thunk for fetching user profile data
 export const fetchUserProfile = createAsyncThunk(
   'user/fetchUserProfile',
   async (token, { rejectWithValue }) => {
@@ -19,7 +25,7 @@ export const fetchUserProfile = createAsyncThunk(
   }
 );
 
-// Thunk pour la mise à jour du profil utilisateur
+// Async thunk for updating user profile data
 export const updateProfile = createAsyncThunk(
   'user/updateProfile',
   async (userData, { getState, dispatch, rejectWithValue }) => {
@@ -36,6 +42,7 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+// Reducer for managing user profile state
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -44,7 +51,7 @@ const userSlice = createSlice({
     error: null,
   },
   reducers: {
-    emptyUser: (state) => {
+    resetUserProfile: (state) => {
       state.userProfile = false;
     },
   },
@@ -63,5 +70,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { emptyUser } = userSlice.actions;
+export const { resetUserProfile } = userSlice.actions;
 export default userSlice.reducer;
