@@ -52,7 +52,7 @@ const userSlice = createSlice({
   },
   reducers: {
     resetUserProfile: (state) => {
-      state.userProfile = false;
+      state.userProfile = null;
     },
   },
   extraReducers: {
