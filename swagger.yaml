@@ -1,0 +1,284 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - in: body
+          name: body
+          description: Login Payload
+          required: true
+          schema:
+            $ref: '#/definitions/Login'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Login Successfully
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/signup:
+    post:
+      tags:
+        - User Module
+      summary: Signup
+      description: API for Signup
+      parameters:
+        - in: body
+          name: body
+          description: Signup Payload
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Signup Successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/profile:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for fetching a user profile
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for updating a user profile
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update user profile attributes
+          required: true
+          schema:
+            $ref: '#/definitions/UserProfile'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/accounts/{accountId}/transactions:
+    get:
+      tags:
+        - Stage 2
+      summary: Get transactions for a specific account and specified month
+      description: Retrieve a list of transactions for the specified account, filtered by month and year if provided.
+      security:
+        - Bearer: []
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - name: accountId
+          in: path
+          required: true
+          type: string
+          description: Unique identifier of the user's account
+        - name: month
+          in: query
+          required: false
+          type: string
+          description: Month for which transactions are to be retrieved, format MM. Defaults to current month if not provided.
+        - name: year
+          in: query
+          required: false
+          type: string
+          description: Year for which transactions are to be retrieved, format YYYY. Defaults to current year if not provided.
+      responses:
+        '200':
+          description: A list of transactions for the specified month and year for the specified account
+          examples:
+            application/json:
+              - id: "transaction123"
+                date: "2020-06-20"
+                description: "Golden Sun Bakery"
+                amount: -5.00
+                balance: 2082.79
+                type: "Electronic"
+                category: "Food"
+                notes: "Breakfast purchase"
+              # ... other transactions ...
+        '401':
+          description: Unauthorized if the token is invalid
+        '404':
+          description: Account not found
+        '500':
+          description: Internal Server Error
+
+  /user/accounts/{accountId}/transactions/{transactionId}:
+    put:
+      tags:
+        - Stage 2
+      summary: Update details of a specific transaction
+      description: Update details such as category, and notes for a specific transaction.
+      security:
+        - Bearer: []
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - name: accountId
+          in: path
+          required: true
+          type: string
+          description: Unique identifier of the user's account
+        - name: transactionId
+          in: path
+          required: true
+          type: string
+          description: Unique identifier of the transaction to be updated
+        - in: body
+          name: body
+          description: Transaction details to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionDetailsUpdate'
+      responses:
+        '200':
+          description: Transaction updated successfully
+          examples:
+            application/json:
+              id: "transaction123"
+              date: "2020-06-20"
+              description: "Golden Sun Bakery"
+              amount: -5.00
+              balance: 2082.79
+              type: "Electronic"
+              category: "Food"
+              notes: "Dinner payment"
+        '400':
+          description: Invalid input, object invalid
+        '401':
+          description: Unauthorized if the token is invalid
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  User:
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+      firstName:
+        type: string
+        description: user first name
+      lastName:
+        type: string
+        description: user last name
+  Login:
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+  ApiResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          email:
+            type: string
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+  UserProfile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+  TransactionDetailsUpdate:
+    type: object
+    required:
+      - category
+      - notes
+    properties:
+      category:
+        type: string
+        description: "Transaction category, e.g. 'Food', 'Housing', etc."
+        example: "Food"
+      notes:
+        type: string
+        description: "Additional notes on the transaction."
+        example: "Dinner payment"
+
