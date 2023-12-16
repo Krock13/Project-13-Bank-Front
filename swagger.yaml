@@ -115,7 +115,7 @@ paths:
   /user/accounts/{accountId}/transactions:
     get:
       tags:
-        - Stage 2
+        - Transaction
       summary: Get transactions for a specific account and specified month
       description: Retrieve a list of transactions for the specified account, filtered by month and year if provided.
       security:
@@ -165,7 +165,7 @@ paths:
   /user/accounts/{accountId}/transactions/{transactionId}:
     put:
       tags:
-        - Stage 2
+        - Transaction
       summary: Update details of a specific transaction
       description: Update details such as category, and notes for a specific transaction.
       security:
@@ -269,9 +269,6 @@ definitions:
         type: string
   TransactionDetailsUpdate:
     type: object
-    required:
-      - category
-      - notes
     properties:
       category:
         type: string
